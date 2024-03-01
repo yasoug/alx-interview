@@ -11,11 +11,12 @@ def makeChange(coins, total):
     """
     if total < 1:
         return 0
-    min_arr = [float('inf')] * (total + 1)
-    min_arr[0] = 0
-
-    for i in range(1, len(min_arr)):
-        for d in coins:
-            if i >= d:
-                min_arr[i] = min(min_arr[i], min_arr[i - d] + 1)
-    return min_arr[total] if min_arr[total] != float('inf') else -1
+    min_needed = 0
+    coins.sort(reverse=True)
+    for denomination in coins:
+        if total != 0:
+            min_needed += total // denomination
+            total %= denomination
+    if total:
+        return -1
+    return min_needed
